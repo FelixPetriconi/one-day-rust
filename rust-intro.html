@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>Rust</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="template/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="template/css/theme/white.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'template/css/print/pdf.css' : 'template/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="template/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Rust</h1>
+  <p class="subtitle">A comprehensive introduction</p>
+</section>
+
+<section><section id="whoami1" class="title-slide slide level1"><h1><code>whoami(1)</code></h1></section><section class="slide level2">
+
+<p>Katharina Fey ( <code>@spacekookie</code> )</p>
+<ul>
+<li>Software Engineer from Berlin</li>
+<li>Works with Rust at Ferrous Systems</li>
+</ul>
+</section><section class="slide level2">
+
+<ul>
+<li>Member of Community Team and <code>cli-wg</code></li>
+<li>Creating a <code>database-wg</code></li>
+<li>Developing and maintaining Rust tools</li>
+<li>Giving workshops and organising meetups
+<ul>
+<li>https://berline.rs</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<p>If you have questions beyond this workshop:</p>
+<ul>
+<li>E-Mail: kookie@spacekookie.de
+<ul>
+<li>GPG: <code>555F 2E4B 6F87 F91A 4110</code></li>
+</ul></li>
+<li>XMPP: <code>kookie@spacekookie.de</code></li>
+<li>Twitter: <code>@spacekookie</code></li>
+</ul>
+</section></section>
+<section><section id="what-is-rust" class="title-slide slide level1"><h1>What is Rust?</h1></section><section class="slide level2">
+
+<ul>
+<li>Originally {developed, funded} by Mozilla</li>
+<li>Replacement for <code>C++</code> in Firefox
+<ul>
+<li>Replace individual components gradually</li>
+<li>Fundamentally built around good FFI</li>
+</ul></li>
+<li>Developed by a large community world-wide</li>
+</ul>
+</section><section class="slide level2">
+
+<p>(We won’t cover FFI today)</p>
+</section><section class="slide level2">
+
+<ul>
+<li>Influences from C++ and Haskell</li>
+</ul>
+</section><section id="spectrum-of-programming-languages" class="slide level2">
+<h2>Spectrum of Programming languages</h2>
+<figure>
+<img data-src="images/purity.png" alt="Rust doesn’t really fit in this spectrum" /><figcaption>Rust doesn’t really fit in this spectrum</figcaption>
+</figure>
+</section><section id="some-highlights" class="slide level2">
+<h2>Some highlights</h2>
+<ul>
+<li>Memory safety without GC</li>
+<li>Thread safety without Runtime</li>
+<li>“Zero cost abstractions”</li>
+<li>Utilises static analysis heavily</li>
+</ul>
+</section><section class="slide level2">
+
+<blockquote>
+<p>Rust is a rather German programming language:</p>
+<p>It’s very precise and has no sense of humour</p>
+</blockquote>
+</section></section>
+<section><section id="installation" class="title-slide slide level1"><h1>Installation</h1></section><section class="slide level2">
+
+<ul>
+<li>https://rustup.rs</li>
+</ul>
+<p>Use whatever editor you’re comfy with</p>
+</section><section id="test-setup" class="slide level2">
+<h2>Test setup</h2>
+<ul>
+<li>Type <code>"cargo new &lt;name&gt;"</code></li>
+<li>Folder should contain <code>Cargo.toml</code> and <code>src/main.rs</code></li>
+<li>Running <code>"cargo run"</code> should print “Hello world!”</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">fn</span> main() <span class="op">{</span></a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="pp">println!</span>(<span class="st">&quot;Hello world&quot;</span>);</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="op">}</span></a></code></pre></div>
+</section><section id="debug-printing" class="slide level2">
+<h2>Debug printing</h2>
+<ul>
+<li><code>"println!"</code> is a macro (marked by “!”)</li>
+<li><code>"{}"</code> is used for string interpolation
+<ul>
+<li>Different formatters can be used:
+<ul>
+<li><code>"{:?}"</code> debug format</li>
+<li><code>"{:#?}"</code> pretty debug format</li>
+<li><code>"{:X}"</code> upper-case hexadecimal numbers</li>
+<li>… many more in the docs!</li>
+</ul></li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<p>https://play.rust-lang.org</p>
+</section></section>
+<section><section id="slides" class="title-slide slide level1"><h1>Slides</h1></section><section class="slide level2">
+
+<ul>
+<li>https://github.com/spacekookie/one-day-rust</li>
+<li>Contains some example code too</li>
+<li>PRs welcome!</li>
+</ul>
+</section></section>
+<section><section id="basics" class="title-slide slide level1"><h1>Basics</h1></section><section id="theres-no-null" class="slide level2">
+<h2>There’s no null</h2>
+</section><section id="section" class="slide level2">
+<h2>🎉</h2>
+</section><section id="basic-types" class="slide level2">
+<h2>Basic Types</h2>
+<ul>
+<li>Primitives
+<ul>
+<li><code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>u128</code></li>
+<li><code>i8</code>, <code>i16</code>, …</li>
+<li><code>f32</code>, <code>f64</code>, …</li>
+<li><code>bool</code>, <code>char</code>, <code>usize</code>, <code>isize</code></li>
+</ul></li>
+<li>Tuples i.e. <code>(5, false, 'c')</code></li>
+<li><code>()</code> = Unit/ void</li>
+</ul>
+</section><section id="slices" class="slide level2">
+<h2>Slices 🥧</h2>
+<ul>
+<li>i.e. <code>[1, 2, 3, 4]</code></li>
+<li>Essentially arrays</li>
+<li>Exist on Stack or Heap</li>
+<li>Don’t grow or shrink</li>
+</ul>
+</section><section id="strings" class="slide level2">
+<h2>Strings</h2>
+<ul>
+<li><code>String</code> vs <code>&amp;str</code></li>
+<li>Heap allocated/ growable vs char-array</li>
+<li>Both <code>utf-8</code> enforcing!</li>
+<li>Turn one into the other
+<ul>
+<li><code>to_string()</code></li>
+<li><code>into()</code></li>
+</ul></li>
+</ul>
+</section><section id="libstd-types" class="slide level2">
+<h2>libstd types</h2>
+<ul>
+<li><code>Vec</code> a growable vector</li>
+<li><code>HashMap</code>, <code>HashSet</code>, <code>VecDeque</code>, …</li>
+</ul>
+</section><section id="functions" class="slide level2">
+<h2>Functions</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">fn</span> square(x: <span class="dt">i32</span>) -&gt; <span class="dt">i64</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb2-2" title="2">    x * x</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="op">}</span></a></code></pre></div>
+<ul>
+<li>Last line without a <code>;</code> implicitly returns
+<ul>
+<li><code>return</code> keyword still exists for ambigous cases</li>
+</ul></li>
+</ul>
+</section><section id="mutability" class="slide level2">
+<h2>Mutability</h2>
+<ul>
+<li>Variable bindings are by default immutable
+<ul>
+<li><code>mut</code> keyword exists</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">let</span> x = <span class="dv">5</span>;</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">// x = 6; // this will fail!</span></a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw">let</span> <span class="kw">mut</span> y = <span class="dv">5</span>;</a>
+<a class="sourceLine" id="cb3-5" title="5">y = <span class="dv">6</span>; <span class="co">// this is fine!</span></a></code></pre></div>
+<ul>
+<li>Lints against useless <code>mut</code></li>
+</ul>
+</section><section id="enums" class="slide level2">
+<h2>Enums</h2>
+<ul>
+<li>Similar to algebraic data types in Haskell</li>
+<li>Variants not first-class types (yet!)</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">enum</span> Action <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-2" title="2">  Nothing,</a>
+<a class="sourceLine" id="cb4-3" title="3">  Move <span class="op">{</span> x: <span class="dt">i64</span>, y: <span class="dt">i64</span> <span class="op">}</span>, <span class="co">// Structure enum</span></a>
+<a class="sourceLine" id="cb4-4" title="4">  Attack(Unit),            <span class="co">// Tuple enum</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<p>Use pattern-matching to distinguish variants</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">match</span> act <span class="op">{</span></a>
+<a class="sourceLine" id="cb5-2" title="2">  Nothing =&gt; <span class="pp">println!</span>(<span class="st">&quot;Nice day to just look around&quot;</span>),</a>
+<a class="sourceLine" id="cb5-3" title="3">  Move <span class="op">{</span> x, y <span class="op">}</span> =&gt; move_to(x, y),</a>
+<a class="sourceLine" id="cb5-4" title="4">  Attack(trg) =&gt; attack(trg),</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="op">}</span></a></code></pre></div>
+</section></section>
+<section><section id="speaking-of-enums" class="title-slide slide level1"><h1>Speaking of enums</h1></section><section id="option-result" class="slide level2">
+<h2>Option &amp; Result</h2>
+<ul>
+<li>Two enums provided by <code>libstd</code>/<code>libcore</code></li>
+<li>Used for <em>really</em> cool error handling</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">fn</span> can_fail(fails: <span class="dt">bool</span>) -&gt; <span class="dt">Option</span>&lt;&amp;<span class="dt">str</span>&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="kw">if</span> !fails <span class="op">{</span></a>
+<a class="sourceLine" id="cb6-3" title="3">        <span class="cn">Some</span>(<span class="st">&quot;Cool&quot;</span>)</a>
+<a class="sourceLine" id="cb6-4" title="4">    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb6-5" title="5">        <span class="cn">None</span></a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb7"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">fn</span> can_fail(fails: <span class="dt">bool</span>) -&gt; <span class="dt">Result</span>&lt;&amp;<span class="dt">str</span>, &amp;<span class="dt">str</span>&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="kw">if</span> !fails <span class="op">{</span></a>
+<a class="sourceLine" id="cb7-3" title="3">        <span class="cn">Ok</span>(<span class="st">&quot;Cool&quot;</span>)</a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb7-5" title="5">        <span class="cn">Err</span>(<span class="st">&quot;You were setting up for failure!&quot;</span>)</a>
+<a class="sourceLine" id="cb7-6" title="6">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<ul>
+<li><code>Option</code> represents a possible missing value.</li>
+<li>Use <code>unwrap()</code> to access data
+<ul>
+<li>Panics if value doesn’t exist</li>
+<li><code>?</code> operator can gracefully handle errors</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">let</span> x = <span class="cn">Some</span>(<span class="st">&quot;Cool&quot;</span>);</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="pp">println!</span>(<span class="st">&quot;{}&quot;</span>, x.expect(<span class="st">&quot;Value missing!&quot;</span>));</a></code></pre></div>
+</section><section class="slide level2">
+
+<p>You can also use pattern matchin to access data</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">let</span> x = can_fail(<span class="cn">false</span>);</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">match</span> x <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="cn">Some</span>(val) =&gt; <span class="pp">println!</span>(<span class="st">&quot;{}&quot;</span>, val),</a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="cn">None</span> =&gt; <span class="pp">println!</span>(<span class="st">&quot;&lt;missing&gt;&quot;</span>),</a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb10"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">fn</span> do_stuff() -&gt; <span class="dt">Result</span>&lt;(), MyError&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb10-2" title="2">    <span class="kw">let</span> x = can_fail()?;</a>
+<a class="sourceLine" id="cb10-3" title="3">    </a>
+<a class="sourceLine" id="cb10-4" title="4">    <span class="co">// ... is the same as ...</span></a>
+<a class="sourceLine" id="cb10-5" title="5"></a>
+<a class="sourceLine" id="cb10-6" title="6">    <span class="kw">let</span> y = <span class="kw">match</span> can_fail() <span class="op">{</span></a>
+<a class="sourceLine" id="cb10-7" title="7">        <span class="cn">Ok</span>(y) =&gt; y,</a>
+<a class="sourceLine" id="cb10-8" title="8">        <span class="cn">Err</span>(e) =&gt; <span class="kw">return</span> <span class="cn">Err</span>(e),</a>
+<a class="sourceLine" id="cb10-9" title="9">    <span class="op">}</span>;</a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="op">}</span></a></code></pre></div>
+</section></section>
+<section><section id="example-time" class="title-slide slide level1"><h1>Example Time!</h1></section><section class="slide level2">
+
+<ul>
+<li>Get comfortable writing Rust</li>
+<li>Use stuff covered so far</li>
+</ul>
+</section><section id="write-a-small-parser" class="slide level2">
+<h2>Write a small parser</h2>
+<ul>
+<li>Protocol to publish and retrieve
+<ul>
+<li><code>PUB &lt;item&gt;, &lt;item&gt;</code></li>
+<li><code>GET &lt;number&gt;</code></li>
+</ul></li>
+<li>Parse String into Enum</li>
+<li>Handle parse errors</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb11"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">enum</span> Command <span class="op">{</span></a>
+<a class="sourceLine" id="cb11-2" title="2">    Pub(<span class="dt">Vec</span>&lt;<span class="dt">String</span>&gt;),</a>
+<a class="sourceLine" id="cb11-3" title="3">    Get(<span class="dt">u32</span>),</a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="op">}</span></a>
+<a class="sourceLine" id="cb11-5" title="5"></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="kw">enum</span> ParseError <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></a>
+<a class="sourceLine" id="cb11-7" title="7"></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="kw">fn</span> parse(input: &amp;<span class="dt">str</span>) -&gt; <span class="dt">Result</span>&lt;Command, ParseError&gt; <span class="op">{}</span></a></code></pre></div>
+</section></section>
+<section><section id="structures-oo" class="title-slide slide level1"><h1>Structures &amp; OO</h1></section><section class="slide level2">
+
+<ul>
+<li>Rust has some features that might look like object-orientation</li>
+<li>Rust is OO, depending on who you ask
+<ul>
+<li>Depends on if this person likes OO or not</li>
+</ul></li>
+</ul>
+</section><section id="rust-doesnt-have" class="slide level2">
+<h2>Rust <em>doesn’t</em> have</h2>
+<ul>
+<li>Inheritance</li>
+<li>Polymorphism</li>
+<li>Runtime generics</li>
+</ul>
+</section><section id="rust-does-have" class="slide level2">
+<h2>Rust <em>does</em> have</h2>
+<ul>
+<li>Monomorphic generics</li>
+<li>Interfaces (via “Traits”)</li>
+<li>Trait inheritance (usually called “trait bounds”)</li>
+<li>Associative functions</li>
+</ul>
+</section><section id="is-rust-object-oriented" class="slide level2">
+<h2>Is Rust object-oriented?</h2>
+</section><section id="section-1" class="slide level2">
+<h2>🤷</h2>
+</section><section id="structs" class="slide level2">
+<h2><code>structs</code></h2>
+<ul>
+<li>Analogue to a <code>struct</code> in C or C++</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">struct</span> MyType <span class="op">{</span></a>
+<a class="sourceLine" id="cb12-2" title="2">  num: <span class="dt">u32</span>,</a>
+<a class="sourceLine" id="cb12-3" title="3">  name: <span class="dt">String</span>,</a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb13"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">struct</span> GenericStruct&lt;T&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb13-2" title="2">    thing: T</a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="op">}</span></a></code></pre></div>
+</section><section id="associative-functions" class="slide level2">
+<h2>Associative functions</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">struct</span> MyType;</a>
+<a class="sourceLine" id="cb14-2" title="2"></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="kw">impl</span> MyType <span class="op">{</span></a>
+<a class="sourceLine" id="cb14-4" title="4">    <span class="kw">fn</span> new() -&gt; <span class="kw">Self</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb14-5" title="5">        <span class="kw">Self</span></a>
+<a class="sourceLine" id="cb14-6" title="6">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="op">}</span></a>
+<a class="sourceLine" id="cb14-8" title="8"></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="kw">fn</span> main() <span class="op">{</span></a>
+<a class="sourceLine" id="cb14-10" title="10">    <span class="kw">let</span> t = <span class="pp">MyType::</span>new();</a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="op">}</span></a></code></pre></div>
+</section><section id="mutability-self" class="slide level2">
+<h2>Mutability &amp; self</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">struct</span> Person <span class="op">{</span> name: <span class="dt">String</span>, age: <span class="dt">u8</span> <span class="op">}</span></a>
+<a class="sourceLine" id="cb15-2" title="2"></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="kw">impl</span> Person <span class="op">{</span></a>
+<a class="sourceLine" id="cb15-4" title="4">    <span class="kw">fn</span> new() -&gt; <span class="kw">Self</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb15-5" title="5">        <span class="kw">Self</span> <span class="op">{</span> name: <span class="st">&quot;Katharina&quot;</span>.into(), age: <span class="dv">26</span> <span class="op">}</span></a>
+<a class="sourceLine" id="cb15-6" title="6">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb15-7" title="7">    <span class="kw">fn</span> birthday(&amp;<span class="kw">mut</span> <span class="kw">self</span>) <span class="op">{</span> <span class="kw">self</span>.age += <span class="dv">1</span>; <span class="op">}</span>    </a>
+<a class="sourceLine" id="cb15-8" title="8">    <span class="kw">fn</span> age(&amp;<span class="kw">self</span>) -&gt; <span class="dt">u8</span> <span class="op">{</span> <span class="kw">self</span>.age <span class="op">}</span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="op">}</span></a>
+<a class="sourceLine" id="cb15-10" title="10"></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co">// ...</span></a>
+<a class="sourceLine" id="cb15-12" title="12"></a>
+<a class="sourceLine" id="cb15-13" title="13"><span class="kw">let</span> <span class="kw">mut</span> kat = <span class="pp">Person::</span>new();</a>
+<a class="sourceLine" id="cb15-14" title="14">kat.birthday(); <span class="co">// `&amp;mut self` is implicit</span></a></code></pre></div>
+</section><section id="interfaces-traits" class="slide level2">
+<h2>Interfaces &amp; Traits</h2>
+<ul>
+<li>Interface types are called “Traits”</li>
+<li>A type can implement an arbitrary number of these</li>
+<li>Some special rules (orphan rules) apply</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">trait</span> Printable: <span class="bu">Debug</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb16-2" title="2">    <span class="kw">fn</span> print(&amp;<span class="kw">self</span>);</a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb17"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">use</span> <span class="pp">std::ops::</span><span class="bu">Drop</span>;</a>
+<a class="sourceLine" id="cb17-2" title="2"></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="kw">struct</span> NativeCtx(<span class="kw">const</span> *ptr);</a>
+<a class="sourceLine" id="cb17-4" title="4"></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="co">// `fn drop` becomes associated with `NativeCtx`</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="kw">impl</span> <span class="bu">Drop</span> <span class="kw">for</span> NativeCtx <span class="op">{</span></a>
+<a class="sourceLine" id="cb17-7" title="7">    <span class="kw">fn</span> drop(&amp;<span class="kw">mut</span> <span class="kw">self</span>) <span class="op">{</span></a>
+<a class="sourceLine" id="cb17-8" title="8">        <span class="kw">unsafe</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb17-9" title="9">            native_thing_close(<span class="kw">self</span>.<span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb17-10" title="10">        <span class="op">}</span></a>
+<a class="sourceLine" id="cb17-11" title="11">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb17-12" title="12"><span class="op">}</span></a></code></pre></div>
+</section><section id="in-summary" class="slide level2">
+<h2>In summary</h2>
+<ul>
+<li>Rust has some object-oriented features</li>
+<li><code>fn new()</code> is constructor by convention only</li>
+<li>Mutability encoded in function signatures</li>
+</ul>
+</section></section>
+<section><section id="ownership-borrowing" class="title-slide slide level1"><h1>Ownership &amp; Borrowing</h1></section><section id="what-is-memory-safety" class="slide level2">
+<h2>What is memory safety?</h2>
+</section><section class="slide level2">
+
+<ul>
+<li>Use after free</li>
+<li>Double free</li>
+</ul>
+<p>Leaking memory is fine™</p>
+</section><section class="slide level2">
+
+<p>Fundamental question:</p>
+<ul>
+<li>“Who” owns data?</li>
+<li>… and cleans it up?!</li>
+</ul>
+</section><section id="ownership" class="slide level2">
+<h2>Ownership</h2>
+<ul>
+<li>In Rust all data has an owner</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">struct</span> MyStruct;</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw">fn</span> do_something(_: MyStruct);</a>
+<a class="sourceLine" id="cb18-3" title="3"></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="kw">let</span> x = MyStruct; <span class="co">// I own `x`</span></a>
+<a class="sourceLine" id="cb18-5" title="5"></a>
+<a class="sourceLine" id="cb18-6" title="6">do_something(x); <span class="co">// I give `x` away</span></a>
+<a class="sourceLine" id="cb18-7" title="7"></a>
+<a class="sourceLine" id="cb18-8" title="8">do_something(x); <span class="co">// This won&#39;t _compile_!</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<pre><code>error[E0382]: use of moved value: `x`
+ --&gt; main.rs:8:18
+  |
+6 |     do_something(x);
+  |                  - value moved here
+7 | 
+8 |     do_something(x);
+  |                  ^ value used here after move
+  |
+  = note: move occurs because `x` has type `MyStruct`, which does not implement the `Copy` trait
+
+error: aborting due to previous error</code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li>Always and <em>only</em> one owner to data
+<ul>
+<li>Responsible for freeing memory</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<h3 id="question-that-sucks">Question: that sucks</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">fn</span> does_something(data: MyStruct) -&gt; MyStruct <span class="op">{</span></a>
+<a class="sourceLine" id="cb20-2" title="2">    <span class="co">// Important scientific computing</span></a>
+<a class="sourceLine" id="cb20-3" title="3">    data</a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="op">}</span></a></code></pre></div>
+<p>(that’s not a question, really)</p>
+</section><section id="two-solutions" class="slide level2">
+<h2>Two solutions</h2>
+</section><section id="copy-clone" class="slide level2">
+<h2>Copy &amp; Clone</h2>
+</section><section id="two-traits-in-libcore" class="slide level2">
+<h2>Two traits in libcore</h2>
+<ul>
+<li>Copy = <code>memcpy</code></li>
+<li>Clone = Deep copy</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb21"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">fn</span> thing(_: <span class="dt">u8</span>) <span class="op">{}</span></a>
+<a class="sourceLine" id="cb21-2" title="2"></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="kw">let</span> x = <span class="dv">5</span>;</a>
+<a class="sourceLine" id="cb21-4" title="4">thing(x); <span class="co">// {Integer} is `Copy`</span></a>
+<a class="sourceLine" id="cb21-5" title="5">thing(x); <span class="co">// This works</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb22"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb22-1" title="1"><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Clone</span><span class="at">)]</span> <span class="co">// &lt;-- Macro that provides `Clone`</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">struct</span> NotCopy <span class="op">{</span></a>
+<a class="sourceLine" id="cb22-3" title="3">    name: <span class="dt">String</span></a>
+<a class="sourceLine" id="cb22-4" title="4"><span class="op">}</span></a>
+<a class="sourceLine" id="cb22-5" title="5"></a>
+<a class="sourceLine" id="cb22-6" title="6"><span class="kw">fn</span> thing(_: NotCopy) <span class="op">{}</span></a>
+<a class="sourceLine" id="cb22-7" title="7"><span class="kw">let</span> x: <span class="dt">String</span> = <span class="st">&quot;No Strings attached&quot;</span>;</a>
+<a class="sourceLine" id="cb22-8" title="8"></a>
+<a class="sourceLine" id="cb22-9" title="9">thing(x.clone());</a>
+<a class="sourceLine" id="cb22-10" title="10">thing(x);</a></code></pre></div>
+<ul>
+<li><code>Clone</code> allows pre-emptive copying of data
+<ul>
+<li>In reality LLVM can optimise many of these</li>
+<li><code>Clone</code> can be “derived” for a type if all members are also <code>Clone</code></li>
+</ul></li>
+</ul>
+</section><section id="borrowing" class="slide level2">
+<h2>Borrowing</h2>
+</section><section class="slide level2">
+
+<ul>
+<li>If you own something, you can lend it</li>
+<li>Data can be shared without moving ownership!</li>
+<li>Under the hood: pointers!</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb23"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">let</span> x = MyStruct; <span class="co">// ˯ Pretzel operator means &quot;borrow&quot;</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="kw">fn</span> do_something(foo: &amp;MyStruct) <span class="op">{</span> <span class="op">}</span></a>
+<a class="sourceLine" id="cb23-3" title="3"></a>
+<a class="sourceLine" id="cb23-4" title="4">do_something(&amp;x);</a>
+<a class="sourceLine" id="cb23-5" title="5">do_something(&amp;x); <span class="co">// This is fine</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<ul>
+<li>Borrowing is encoded at the type-level</li>
+<li><code>MyStruct</code> and <code>&amp;MyStruct</code> are fundamentally different types!</li>
+</ul>
+</section><section id="mutability-1" class="slide level2">
+<h2>Mutability</h2>
+<ul>
+<li>When borrowing data, mutability is <strong>exclusive</strong></li>
+<li>No two <code>&amp;mut</code> can exist for the same data twice.</li>
+</ul>
+</section><section id="borrowing-rules" class="slide level2">
+<h2>Borrowing Rules</h2>
+<p>As many read-only borrows as you want</p>
+<p>OR</p>
+<p>One (1) <code>&amp;mut</code> borrow</p>
+</section><section id="why" class="slide level2">
+<h2>why</h2>
+</section><section class="slide level2">
+
+<ul>
+<li>Multiple sources of errors that can be avoided at compile time</li>
+<li>Usually Ownership/ Borrowing mechanisms an be caught by patterns manually</li>
+<li>By letting the compiler enforce them there is less cognitive load</li>
+</ul>
+</section><section id="examples" class="slide level2">
+<h2>🔥 Examples 🔥</h2>
+</section><section class="slide level2">
+
+<p>Should this compile?</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">let</span> <span class="kw">mut</span> f = <span class="pp">File::</span>open(<span class="st">&quot;foo.txt)?;</span></a>
+<a class="sourceLine" id="cb24-2" title="2"></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="st">thread::spawn(|| {</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="st">    let mut buf = vec![];</span></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="st">    f.read_exact(&amp;mut buf).unwrap();</span></a>
+<a class="sourceLine" id="cb24-6" title="6"><span class="st">})</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<p>No!</p>
+<pre><code>error[E0373]: closure may outlive the current function, but it borrows `f`, which is owned by the current function
+  --&gt; main.rs:8:19
+   |
+8  |     thread::spawn(|| {
+   |                   ^^ may outlive borrowed value `f`
+9  |         let mut buf = vec![];
+10 |         f.read_to_end(&amp;mut buf).unwrap();
+   |         - `f` is borrowed here
+help: to force the closure to take ownership of `f` (and any other referenced variables), use the `move` keyword
+   |
+8  |     thread::spawn(move || {
+   |                   ^^^^^^^</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb26"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">let</span> <span class="kw">mut</span> f = <span class="pp">File::</span>open(<span class="st">&quot;foo.txt)?;</span></a>
+<a class="sourceLine" id="cb26-2" title="2"></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="st">thread::spawn(move || {</span></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="st">    let mut buf = vec![];</span></a>
+<a class="sourceLine" id="cb26-5" title="5"><span class="st">    f.read_exact(&amp;mut buf).unwrap();</span></a>
+<a class="sourceLine" id="cb26-6" title="6"><span class="st">})</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<p>Should this compile?</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">let</span> <span class="kw">mut</span> f = <span class="pp">File::</span>open(<span class="st">&quot;foo.txt&quot;</span>)?;</a>
+<a class="sourceLine" id="cb27-2" title="2"></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="kw">for</span> _ <span class="kw">in</span> <span class="dv">0</span>..<span class="dv">3</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb27-4" title="4">    <span class="pp">thread::</span>spawn(|| <span class="op">{</span></a>
+<a class="sourceLine" id="cb27-5" title="5">        <span class="kw">let</span> <span class="kw">mut</span> buf = <span class="pp">vec!</span><span class="op">[]</span>;</a>
+<a class="sourceLine" id="cb27-6" title="6">        f.read_exact(&amp;<span class="kw">mut</span> buf).unwrap();</a>
+<a class="sourceLine" id="cb27-7" title="7">    <span class="op">}</span>);</a>
+<a class="sourceLine" id="cb27-8" title="8"><span class="op">}</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<p>No (not even if we move!)</p>
+<pre><code>error[E0382]: capture of moved value: `f`
+  --&gt; main.rs:11:13
+   |
+9  |         thread::spawn(move || {
+   |                       ------- value moved (into closure) here
+10 |             let mut buf = vec![];
+11 |             f.read_to_end(&amp;mut buf).unwrap();
+   |             ^ value captured here after move
+   |
+   = note: move occurs because `f` has type `std::fs::File`, which does not implement `Copy` </code></pre>
+</section></section>
+<section><section id="the-in-the-room" class="title-slide slide level1"><h1>The 🐘 in the room</h1></section><section class="slide level2">
+
+<ul>
+<li>“Lifetimes” are mentioned in error messages</li>
+<li>The lifetime of data is an explicit concept in Rust</li>
+</ul>
+<p>TLDR:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">struct</span> Wrap&lt;<span class="ot">&#39;outer</span>&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb29-2" title="2">    name: &amp;<span class="ot">&#39;outer</span> <span class="dt">str</span></a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="op">}</span></a></code></pre></div>
+<p>We won’t cover this it more detail here!</p>
+</section></section>
+<section><section id="iterators" class="title-slide slide level1"><h1>Iterators</h1><ul>
+<li>Rust has amazing iterators</li>
+<li>Example of a “zero cost abstraction”
+<ul>
+<li>They “disappear” at compile-time</li>
+</ul></li>
+</ul></section><section id="iterator-api" class="slide level2">
+<h2>Iterator API</h2>
+<ul>
+<li>Rust iterators are lazy</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">let</span> list: <span class="dt">Vec</span>&lt;_&gt; = (<span class="dv">0</span>..)</a>
+<a class="sourceLine" id="cb30-2" title="2">    .take(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb30-3" title="3">    .map(|i| i * i)</a>
+<a class="sourceLine" id="cb30-4" title="4">    .collect();</a></code></pre></div>
+</section><section class="slide level2">
+
+<p>Infinite iterators</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">use</span> <span class="pp">std::net::</span>TcpListener;</a>
+<a class="sourceLine" id="cb31-2" title="2"></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="kw">let</span> listener = <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="kw">for</span> stream <span class="kw">in</span> listener.incoming() <span class="op">{</span></a>
+<a class="sourceLine" id="cb31-5" title="5">    <span class="co">// ... do stuff with Stream</span></a>
+<a class="sourceLine" id="cb31-6" title="6"><span class="op">}</span></a></code></pre></div>
+</section></section>
+<section><section id="example-time-2" class="title-slide slide level1"><h1>Example Time 2!</h1></section><section class="slide level2">
+
+<ul>
+<li>Expand on the earlier example</li>
+<li>Add an actual server to it
+<ul>
+<li>Hint: `std::net::{TcpListener, TcpStream};</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">fn</span> main() <span class="op">{</span></a>
+<a class="sourceLine" id="cb32-2" title="2">    <span class="kw">let</span> <span class="kw">mut</span> data = <span class="pp">VecDeque::</span>new();</a>
+<a class="sourceLine" id="cb32-3" title="3">    </a>
+<a class="sourceLine" id="cb32-4" title="4">    <span class="co">// - accept TCP connections</span></a>
+<a class="sourceLine" id="cb32-5" title="5">    <span class="co">// - Read incoming data to String</span></a>
+<a class="sourceLine" id="cb32-6" title="6">    <span class="co">// - Call `parse` function with String</span></a>
+<a class="sourceLine" id="cb32-7" title="7">    <span class="co">// - Send back data or error</span></a></code></pre></div>
+</section></section>
+<section><section id="modules-and-crates" class="title-slide slide level1"><h1>Modules and crates 📦</h1></section><section class="slide level2">
+
+<ul>
+<li>Programs rarely remain simple enough for one file</li>
+<li>Breaking code out into multiple files is important</li>
+<li>Libraries in Rust are called “crates”
+<ul>
+<li>https://crates.io package index</li>
+</ul></li>
+</ul>
+</section><section id="modules" class="slide level2">
+<h2>Modules</h2>
+<ul>
+<li>Modules are either files or folders with a name</li>
+<li>Folders need an “entry” file</li>
+<li>Either <code>foo.rs</code> or <code>foo/mod.rs</code> can create the “foo” module</li>
+</ul>
+<div class="sourceCode" id="cb33"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">mod</span> foo; <span class="co">// Load &quot;foo&quot; into compilation</span></a>
+<a class="sourceLine" id="cb33-2" title="2"></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="kw">use</span> <span class="pp">foo::</span>Foo; <span class="co">// include things from &quot;foo&quot; module</span></a></code></pre></div>
+</section><section class="slide level2">
+
+<pre><code>.
+├── foo
+│   ├── bar.rs
+│   └── mod.rs // Either this
+├── foo.rs     // or this, but not both!
+└── main.rs</code></pre>
+</section><section id="crates" class="slide level2">
+<h2>Crates</h2>
+<ul>
+<li>A binary “crate” starts with <code>main.rs</code></li>
+<li>A library crate starts with <code>lib.rs</code></li>
+</ul>
+</section><section id="dependencies" class="slide level2">
+<h2>Dependencies</h2>
+<p>Project files written in TOML</p>
+<p><small>Neither obvious nor minimal</small></p>
+<pre class="toml"><code>[package]
+name = &quot;badredis&quot;
+version = &quot;0.1.0&quot; 
+authors = [&quot;Katharina Fey &lt;kookie@spacekookie.de&gt;&quot;]
+edition = &quot;2018&quot;
+
+[dependencies]
+rocket = &quot;0.4&quot;
+serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1.0&quot;</code></pre>
+</section><section id="tests" class="slide level2">
+<h2>Tests</h2>
+<ul>
+<li>Cargo has a testing framework built-in</li>
+<li><code>src/tests/</code> are unit tests</li>
+<li><code>tests/</code> are integration tests</li>
+<li>Or mark functions with <code>"#[test]"</code></li>
+</ul>
+<pre><code> ❤ (azedes) ~/P/a/parse&gt; cargo test
+ Compiling parse v0.1.0 (/.../accu-workshop/parse)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.52s
+     Running target/debug/deps/parse-21fa3580bcb761eb
+
+running 1 test
+test basic_function ... ok
+
+test result: ok. 1 passed; 0 failed;</code></pre>
+</section></section>
+<section><section id="advanced-subjects" class="title-slide slide level1"><h1>Advanced subjects 🐉</h1></section><section class="slide level2">
+
+<ul>
+<li>Concurrency with “Send” and “Sync” traits</li>
+<li>Async server programming</li>
+<li>“Unsafe” sub-language</li>
+<li>FFI and “native” calls</li>
+<li>Declarative Macros</li>
+<li>Procedural Macros/ Compiler attributes</li>
+</ul>
+</section><section id="send-sync" class="slide level2">
+<h2>Send &amp; Sync</h2>
+<ul>
+<li>Describes if a type is thread-safe</li>
+<li>Used as a marker trait
+<ul>
+<li>Implementation is empty - compiler trusts Developer</li>
+<li>This is however “unsafe”</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb37"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">unsafe</span> <span class="kw">impl</span> <span class="bu">Send</span> <span class="kw">for</span> MyDataStructure <span class="op">{}</span></a></code></pre></div>
+</section><section id="async-server-programming" class="slide level2">
+<h2>Async server programming</h2>
+<ul>
+<li>Future and Poll types in libstd/libcore</li>
+<li><code>"futures.rs"</code> crate provides zero cost abstraction combinators</li>
+<li>async/await syntax not stabilised yet, but in the final stages of implementation</li>
+<li>Currently requires nightly Rust</li>
+</ul>
+<div class="sourceCode" id="cb38"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb38-1" title="1"><span class="co">//     Signature expands to `Future&lt;Item=Result&lt;String, io::Error&gt;&gt;`</span></a>
+<a class="sourceLine" id="cb38-2" title="2">async <span class="kw">fn</span> things_with_io() -&gt; <span class="dt">Result</span>&lt;<span class="dt">String</span>, <span class="pp">io::</span>Error&gt; <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></a>
+<a class="sourceLine" id="cb38-3" title="3"></a>
+<a class="sourceLine" id="cb38-4" title="4"><span class="kw">let</span> string = <span class="pp">await!</span>(things_with_io)?;</a></code></pre></div>
+</section><section id="unsafe-sublanguage" class="slide level2">
+<h2>Unsafe sublanguage</h2>
+<ul>
+<li>Some things are impossible in safe rust
+<ul>
+<li>Writing many datastructures included</li>
+</ul></li>
+<li>“unsafe” allows circumvention of rules
+<ul>
+<li>Change mutability of a type</li>
+<li>Access global shared state</li>
+<li>Dereference raw pointers</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb39"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb39-1" title="1"><span class="at">#[</span>allow<span class="at">(</span>mutable_transmutes<span class="at">)]</span> <span class="co">// This is always a bad idea!</span></a>
+<a class="sourceLine" id="cb39-2" title="2"><span class="kw">fn</span> fun(t: &amp;Thing) <span class="op">{</span></a>
+<a class="sourceLine" id="cb39-3" title="3">    <span class="kw">let</span> t2: &amp;<span class="kw">mut</span> Thing = <span class="kw">unsafe</span> <span class="op">{</span> <span class="pp">std::mem::</span>transmute(t) <span class="op">}</span>;</a>
+<a class="sourceLine" id="cb39-4" title="4"><span class="op">}</span></a></code></pre></div>
+</section><section id="foreign-function-interfaces" class="slide level2">
+<h2>Foreign Function Interfaces</h2>
+<ul>
+<li>Rust ABI is unstable</li>
+<li>Interfacing with foreign code is done via “C” (platform) ABI</li>
+</ul>
+<div class="sourceCode" id="cb40"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">use</span> <span class="pp">std::ffi::</span><span class="op">{</span><span class="dt">c_void</span>, <span class="dt">c_uint</span><span class="op">}</span>;</a>
+<a class="sourceLine" id="cb40-2" title="2"></a>
+<a class="sourceLine" id="cb40-3" title="3"><span class="kw">extern</span> <span class="st">&quot;C&quot;</span> <span class="kw">fn</span> call_this_from_c(raw: *cost <span class="dt">c_void</span>) <span class="op">{</span></a>
+<a class="sourceLine" id="cb40-4" title="4">    <span class="co">// ...</span></a>
+<a class="sourceLine" id="cb40-5" title="5"><span class="op">}</span></a>
+<a class="sourceLine" id="cb40-6" title="6"></a>
+<a class="sourceLine" id="cb40-7" title="7"><span class="kw">extern</span> <span class="st">&quot;C&quot;</span> <span class="op">{</span></a>
+<a class="sourceLine" id="cb40-8" title="8">    <span class="kw">fn</span> call_this_from_rust(num: <span class="dt">c_uint</span>);</a>
+<a class="sourceLine" id="cb40-9" title="9"><span class="op">}</span></a>
+<a class="sourceLine" id="cb40-10" title="10"></a>
+<a class="sourceLine" id="cb40-11" title="11"><span class="kw">unsafe</span> <span class="op">{</span> call_this_from_rust(<span class="dv">42</span>) <span class="op">}</span>;</a></code></pre></div>
+</section><section id="declarative-macros" class="slide level2">
+<h2>Declarative Macros</h2>
+<ul>
+<li>Opererate on a given AST</li>
+<li>Always expand to valid code</li>
+<li>Hygenic and pure</li>
+</ul>
+<div class="sourceCode" id="cb41"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb41-1" title="1"><span class="pp">macro_rules!</span> vec <span class="op">{</span></a>
+<a class="sourceLine" id="cb41-2" title="2">    ( $( $x:expr ),* ) =&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb41-3" title="3">        <span class="op">{</span></a>
+<a class="sourceLine" id="cb41-4" title="4">            <span class="kw">let</span> <span class="kw">mut</span> temp_vec = <span class="dt">Vec</span>::new();</a>
+<a class="sourceLine" id="cb41-5" title="5">            $(</a>
+<a class="sourceLine" id="cb41-6" title="6">                temp_vec.push($x);</a>
+<a class="sourceLine" id="cb41-7" title="7">            )*</a>
+<a class="sourceLine" id="cb41-8" title="8">            temp_vec</a>
+<a class="sourceLine" id="cb41-9" title="9">        <span class="op">}</span></a>
+<a class="sourceLine" id="cb41-10" title="10">    <span class="op">}</span>;</a>
+<a class="sourceLine" id="cb41-11" title="11"><span class="op">}</span></a></code></pre></div>
+</section><section id="procedural-macros" class="slide level2">
+<h2>Procedural Macros</h2>
+<ul>
+<li>Second type of macros that run inside the compiler</li>
+<li>Execute code to generate code at compile-time</li>
+<li>Example: <code>"#[derive(Clone)]"</code></li>
+<li>You can do cool things with this!</li>
+</ul>
+<p>Shameless plug: <a href="https://github.com/rust-cli/thunder">thunder.rs</a></p>
+</section></section>
+<section><section id="questions" class="title-slide slide level1"><h1>Questions? 😅</h1></section><section id="katharina-fey" class="slide level2">
+<h2>Katharina Fey</h2>
+<ul>
+<li>Works at <a href="https://ferrous-systems.com">Ferrous Systems</a></li>
+<li>Get in touch: <a href="mailto:kookie@spacekookie.de">kookie@spacekookie.de</a></li>
+<li>Twitter: <a href="https://twitter.com/spacekookie">@spacekookie</a></li>
+<li>GPG: 555F 2E4B 6F87 F91A 4110</li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="template/lib/js/head.min.js"></script>
+  <script src="template/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'template/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'template/plugin/zoom-js/zoom.js', async: true },
+          { src: 'template/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
